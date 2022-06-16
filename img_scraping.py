@@ -1,3 +1,4 @@
+# 네이버 이미지 검색 스크래핑
 from click import option
 import os, re, time, dload
 from selenium import webdriver
@@ -16,15 +17,16 @@ def create_dir(dir):
 
 def index_ext(path):
     file_list = os.listdir(path)
-    if len(file_list) == 0: return 1
-    else:
+    if len(file_list) != 0:
         for i in range(len(file_list)):
             file_list[i] = re.sub(r'[^\d]', '', file_list[i])
         return int(max(file_list))+1
-
-def img_scraping(url, dir_path, name):
+    else:
+        return 1
+        
+def img_scraping(keyword, dir_path, name):
     create_dir(dir_path + name)
-    
+    url = f'https://search.naver.com/search.naver?where=image&sm=tab_jum&query={keyword}'
     
     # Selenium driver set-up
     options = webdriver.ChromeOptions()
@@ -51,10 +53,8 @@ def img_scraping(url, dir_path, name):
 
 
 # path set-up
-url = 'https://search.naver.com/search.naver?where=image&sm=tab_jum&query=고양이'
 dir_path = 'N:/. Personal_folder/2022-1__컴공_관련/머신러닝프로그래밍/기말과제_CNN_이미지분류/custom_datasets/'
-
-img_scraping(url, dir_path, "cat")
+img_scraping("고양이", dir_path, "cat")
 
 
 # https://velog.io/@sangyeon217/deprecation-warning-executablepath-has-been-deprecated
